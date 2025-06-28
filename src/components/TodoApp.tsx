@@ -6,6 +6,7 @@ import FilterButtons from "./FilterButtons";
 import { Filters } from "../types/filters";
 import { useTodos } from "../hooks/useTodos";
 import "./TodoApp.css";
+import type { Todo } from "../types/todo";
 
 const TodoApp: React.FC = () => {
   const { todos, addTodo, toggleTodo, deleteTodo, clearCompletedTodos } =
@@ -13,9 +14,36 @@ const TodoApp: React.FC = () => {
 
   const [isCreatingNewTask, setIsCreatingNewTask] = useState<boolean>(false);
   const [filter, setFilter] = useState<Filters>(Filters.ALL);
+  const [searchFilter, setSearchFilter] = useState<string>("");
 
   function handleFilterChange(filter: Filters) {
     setFilter(filter);
+  }
+
+  function handleSearchFilterChange({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) {
+    setSearchFilter(target.value);
+  }
+
+  function filterTodoList() {
+    let filteredTodos: Todo[];
+    filteredTodos = applyFilter(todos);
+    filteredTodos = applySearchFilter(filteredTodos);
+
+    return filteredTodos;
+  }
+
+  function applyFilter(list: Todo[]) {
+    return list.filter((todo) => {
+      if (filter === Filters.ALL) return true;
+      if (filter === Filters.COMPLETED) return todo.completed;
+      if (filter === Filters.PENDING) return !todo.completed;
+    });
+  }
+
+  function applySearchFilter(list: Todo[]) {
+    return list.filter((todo) => todo.text.includes(searchFilter));
   }
 
   function createNewTask(newTask: string) {
@@ -26,6 +54,12 @@ const TodoApp: React.FC = () => {
   return (
     <div className="todo-app-container mx-auto 	flex items-center justify-center">
       <header className="">
+        <input
+          type="text"
+          value={searchFilter}
+          onChange={handleSearchFilterChange}
+          placeholder="Type to search..."
+        />
         <FilterButtons filter={filter} onFilterChange={handleFilterChange} />
         <button onClick={() => setIsCreatingNewTask(true)}>Add new task</button>
       </header>
@@ -36,11 +70,7 @@ const TodoApp: React.FC = () => {
         />
       )}
       <TodoList
-        todos={todos.filter((todo) => {
-          if (filter === Filters.ALL) return true;
-          if (filter === Filters.COMPLETED) return todo.completed;
-          if (filter === Filters.PENDING) return !todo.completed;
-        })}
+        todos={filterTodoList()}
         removeTodo={deleteTodo}
         handleToggleComplete={toggleTodo}
       />

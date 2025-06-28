@@ -1,0 +1,9 @@
+@import "tailwindcss";
+.todo-app-container {
+  --tw-bg-opacity: 1;
+  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+  border-width: 1px;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+}
