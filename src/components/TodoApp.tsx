@@ -5,10 +5,13 @@ import ClearCompleted from "./ClearCompleted";
 import TodoModal from "./TodoModal";
 import { getAllTasks, saveTaskstoStorage } from "../utils/localStorage";
 import debounce from "lodash/debounce";
+import FilterButtons from "./FilterButtons";
+import { Filters } from "../types/Filters";
 
 const TodoApp: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>(getAllTasks());
   const [isCreatingNewTask, setIsCreatingNewTask] = useState<boolean>(false);
+  const [filter, setFilter] = useState<Filters>(Filters.ALL);
 
   useEffect(() => {
     const handler = debounce(() => {
@@ -49,9 +52,14 @@ const TodoApp: React.FC = () => {
     setIsCreatingNewTask(false);
   }
 
+  function handleFilterChange(filter: Filters) {
+    setFilter(filter);
+  }
+
   return (
     <div className="todo-app-container">
       <header>
+        <FilterButtons filter={filter} onFilterChange={handleFilterChange} />
         <button onClick={() => setIsCreatingNewTask(true)}>Add new task</button>
       </header>
       {isCreatingNewTask && (
@@ -61,7 +69,11 @@ const TodoApp: React.FC = () => {
         />
       )}
       <TodoList
-        todos={todos}
+        todos={todos.filter((todo) => {
+          if (filter === Filters.ALL) return true;
+          if (filter === Filters.COMPLETED) return todo.completed;
+          if (filter === Filters.PENDING) return !todo.completed;
+        })}
         removeTodo={removeTodo}
         handleToggleComplete={handleToggleComplete}
       />
