@@ -1,5 +1,5 @@
 import React from "react";
-import { Filters } from "../types/Filters";
+import { Filters } from "../types/filters";
 
 type FilterButtonsProps = {
   filter: Filters;

@@ -3,7 +3,7 @@ import TodoList from "./TodoList";
 import ClearCompleted from "./ClearCompleted";
 import TodoModal from "./TodoModal";
 import FilterButtons from "./FilterButtons";
-import { Filters } from "../types/Filters";
+import { Filters } from "../types/filters";
 import { useTodos } from "../hooks/useTodos";
 
 const TodoApp: React.FC = () => {
