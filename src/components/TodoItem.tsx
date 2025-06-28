@@ -25,8 +25,18 @@ const TodoItem: React.FC<TodoItemProps> = ({
       <td>{todo.text}</td>
       <td>{todo.completed ? "Completed" : "Pending"}</td>
       <td>
-        <button onClick={onToggle}>Toggle</button>
-        <button onClick={handleDelete}>Delete</button>
+        <button
+          className="px-3 py-.5 bg-blue-600 text-white rounded hover:bg-blue-700 "
+          onClick={onToggle}
+        >
+          Toggle
+        </button>
+        <button
+          className="px-4 py-.5 bg-blue-600 text-white rounded hover:bg-blue-700"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
       </td>
     </tr>
   );

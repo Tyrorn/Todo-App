@@ -5,6 +5,7 @@ import TodoModal from "./TodoModal";
 import FilterButtons from "./FilterButtons";
 import { Filters } from "../types/filters";
 import { useTodos } from "../hooks/useTodos";
+import "./TodoApp.css";
 
 const TodoApp: React.FC = () => {
   const { todos, addTodo, toggleTodo, deleteTodo, clearCompletedTodos } =
@@ -23,8 +24,8 @@ const TodoApp: React.FC = () => {
   }
 
   return (
-    <div className="todo-app-container">
-      <header>
+    <div className="todo-app-container mx-auto 	flex items-center justify-center">
+      <header className="">
         <FilterButtons filter={filter} onFilterChange={handleFilterChange} />
         <button onClick={() => setIsCreatingNewTask(true)}>Add new task</button>
       </header>

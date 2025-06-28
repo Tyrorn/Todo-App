@@ -15,7 +15,7 @@ const TodoList: React.FC<TodoListProps> = ({
   handleToggleComplete,
 }) => {
   return (
-    <table className="todo-list-table">
+    <table className="table-layout: auto">
       <thead>
         <tr>
           <th>Task</th>
